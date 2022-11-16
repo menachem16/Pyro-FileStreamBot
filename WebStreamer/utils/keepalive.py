@@ -6,7 +6,7 @@ from WebStreamer.vars import Var
 
 URL = f"https://{Var.FQDN}"
 
-
+print(URL)
 async def ping_server():
     sleep_time = Var.PING_INTERVAL
     while True:
