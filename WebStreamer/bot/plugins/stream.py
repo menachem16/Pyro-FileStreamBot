@@ -85,6 +85,8 @@ async def private_receive_handler(c: Client, m: Message):
             reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Download Now", url=stream_link)]]),
             quote=True
         )
+        with open('list.txt','a') as f:
+            f.write(stream_link+'\n')
     except FloodWait as e:
         print(f"Sleeping for {str(e.x)}s")
         await asyncio.sleep(e.x)
