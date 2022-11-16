@@ -30,7 +30,7 @@ def get_media_file_name(m):
 
 @StreamBot.on_message(filters.private & (filters.document | filters.video | filters.audio) & ~filters.edited, group=4)
 async def private_receive_handler(c: Client, m: Message):
-
+    coun +=1
     if not await db.is_user_exist(m.from_user.id):
         await db.add_user(m.from_user.id)
         await c.send_message(
@@ -88,7 +88,7 @@ async def private_receive_handler(c: Client, m: Message):
 #         )
         
         print(f'stream_link {coun} :',stream_link)
-        coun +=1
+        
     except FloodWait as e:
         print(f"Sleeping for {str(e.x)}s")
         await asyncio.sleep(e.x)
