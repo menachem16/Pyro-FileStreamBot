@@ -10,7 +10,7 @@ from pyrogram import filters, Client
 from pyrogram.errors import FloodWait, UserNotParticipant
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 db = Database(Var.DATABASE_URL, Var.SESSION_NAME)
-
+coun = 0
 
 def get_media_file_size(m):
     media = m.video or m.audio or m.document
@@ -30,6 +30,7 @@ def get_media_file_name(m):
 
 @StreamBot.on_message(filters.private & (filters.document | filters.video | filters.audio) & ~filters.edited, group=4)
 async def private_receive_handler(c: Client, m: Message):
+
     if not await db.is_user_exist(m.from_user.id):
         await db.add_user(m.from_user.id)
         await c.send_message(
@@ -85,9 +86,9 @@ async def private_receive_handler(c: Client, m: Message):
 #             reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Download Now", url=stream_link)]]),
 #             quote=True
 #         )
-        with open('list.txt','a') as f:
-            f.write(stream_link+'\n')
-        print(stream_link)
+        
+        print(f'stream_link {coun} :',stream_link)
+        coun +=1
     except FloodWait as e:
         print(f"Sleeping for {str(e.x)}s")
         await asyncio.sleep(e.x)
