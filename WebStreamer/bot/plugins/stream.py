@@ -79,7 +79,7 @@ async def private_receive_handler(c: Client, m: Message):
                                     file_name)
 
         msg_text = "Bruh! 😁\nYour Link! 🤓\n\n📂 **File Name:** `{}`\n\n📥 **Download Link:** `{}`"
-        await log_msg.reply_text(text=f"**Download Link:** {stream_link}", disable_web_page_preview=True, parse_mode="Markdown", quote=True)
+        await log_msg.reply_text(text=f"**Download Link:** {stream_link}", disable_web_page_preview=False, parse_mode="Markdown", quote=True)
         await m.reply_text(
             text=msg_text.format(file_name, stream_link),
             reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Download Now", url=stream_link)]]),
