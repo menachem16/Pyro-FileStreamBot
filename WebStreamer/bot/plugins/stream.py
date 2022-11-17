@@ -11,7 +11,7 @@ from pyrogram.errors import FloodWait, UserNotParticipant
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 db = Database(Var.DATABASE_URL, Var.SESSION_NAME)
 
-params = []
+
 def get_media_file_size(m):
     media = m.video or m.audio or m.document
     if media and media.file_size:
@@ -23,7 +23,7 @@ def get_media_file_size(m):
 def get_media_file_name(m):
     media = m.video or m.document or m.audio
     if media and media.file_name:
-        params = urllib.parse.quote_plus("stuff;Uid=%s;stuff" % media.file_name)
+
         return urllib.parse.quote_plus(media.file_name)
     else:
         return None
@@ -84,7 +84,7 @@ async def private_receive_handler(c: Client, m: Message):
                                     file_name)
 
         msg_text = "Bruh! 😁\nYour Link! 🤓\n\n📂 **File Name:** `{}`\n\n📥 **Download Link:** `{}`"
-        await log_msg.reply_text(text=f"**File Name:** `{file_name}`\n\n**Download Link:** {stream_link}", disable_web_page_preview=True, parse_mode="Markdown", quote=True)
+        await log_msg.reply_text(text=f"**Download Link:** {stream_link}", disable_web_page_preview=True, parse_mode="Markdown", quote=False)
 #         await m.reply_text(
 #             text=msg_text.format(file_name, stream_link),
 #             reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Download Now", url=stream_link)]]),
