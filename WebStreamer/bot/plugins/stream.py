@@ -74,8 +74,8 @@ async def private_receive_handler(c: Client, m: Message):
     try:
         log_msg = await m.forward(chat_id=Var.BIN_CHANNEL)
         file_name = get_media_file_name(m)
-        
-        print('file_name -',urllib.parse.unquote(file_name))
+        origin = urllib.parse.unquote(file_name).strip('+)
+        print('file_name -',origin)
         file_size = humanbytes(get_media_file_size(m))
         stream_link = "https://{}/{}/{}".format(Var.FQDN, log_msg.message_id, file_name) if Var.ON_HEROKU or Var.NO_PORT else \
             "http://{}:{}/{}/{}".format(Var.FQDN,
@@ -84,7 +84,7 @@ async def private_receive_handler(c: Client, m: Message):
                                     file_name)
 
         msg_text = "Bruh! 😁\nYour Link! 🤓\n\n📂 **File Name:** `{}`\n\n📥 **Download Link:** `{}`"
-        await log_msg.reply_text(text=f"**Download Link:** {stream_link}", disable_web_page_preview=True, parse_mode="Markdown", quote=False)
+        await log_msg.reply_text(text=f"**File Name:** `{origin}`\n\n**Download Link:** {stream_link}", disable_web_page_preview=True, parse_mode="Markdown", quote=False)
 #         await m.reply_text(
 #             text=msg_text.format(file_name, stream_link),
 #             reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Download Now", url=stream_link)]]),
