@@ -11,7 +11,7 @@ from pyrogram.errors import FloodWait, UserNotParticipant
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 db = Database(Var.DATABASE_URL, Var.SESSION_NAME)
 
-params = ""
+params = []
 def get_media_file_size(m):
     media = m.video or m.audio or m.document
     if media and media.file_size:
