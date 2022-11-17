@@ -23,7 +23,7 @@ def get_media_file_size(m):
 def get_media_file_name(m):
     media = m.video or m.document or m.audio
     if media and media.file_name:
-        return urllib.parse.quote_plus(media.file_name)
+        return urllib.parse.quote_plus(media.file_name).decode('utf-8')
     else:
         return None
 
@@ -73,6 +73,7 @@ async def private_receive_handler(c: Client, m: Message):
     try:
         log_msg = await m.forward(chat_id=Var.BIN_CHANNEL)
         file_name = get_media_file_name(m)
+        file_name1 = file_name.
         file_size = humanbytes(get_media_file_size(m))
         stream_link = "https://{}/{}/{}".format(Var.FQDN, log_msg.message_id, file_name) if Var.ON_HEROKU or Var.NO_PORT else \
             "http://{}:{}/{}/{}".format(Var.FQDN,
