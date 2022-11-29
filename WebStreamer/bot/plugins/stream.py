@@ -27,7 +27,15 @@ def get_media_file_name(m):
         return urllib.parse.quote_plus(media.file_name)
     else:
         return None
-
+    
+def get_thumb_file_id(m):
+    media = m.audio or \
+            m.video or \
+            m.document
+    if media and media.thumbs:
+        return media.thumbs[0].file_id
+    else:
+        return None
 
 @StreamBot.on_message(filters.private & (filters.document | filters.video | filters.audio) & ~filters.edited, group=4)
 
@@ -74,6 +82,7 @@ async def private_receive_handler(c: Client, m: Message):
     try:
         log_msg = await m.forward(chat_id=Var.BIN_CHANNEL)
         file_name = get_media_file_name(m)
+        file_thm = get_thumb_file_id(m)
         origin = urllib.parse.unquote(file_name).replace('+',' ')
         print('file_name -',origin)
         file_size = humanbytes(get_media_file_size(m))
@@ -84,7 +93,7 @@ async def private_receive_handler(c: Client, m: Message):
                                     file_name)
 
         msg_text = "Bruh! 😁\nYour Link! 🤓\n\n📂 **File Name:** `{}`\n\n📥 **Download Link:** `{}`"
-        await log_msg.reply_text(text=f"**File Name:** `{origin}`\n\n**Download Link:** {stream_link}", disable_web_page_preview=True, parse_mode="Markdown", quote=False)
+        await log_msg.reply_text(text=f"`{file_thm}`\n\n**File Name:** `{origin}`\n\n**Download Link:** {stream_link}", disable_web_page_preview=True, parse_mode="Markdown", quote=False)
 #         await m.reply_text(
 #             text=msg_text.format(file_name, stream_link),
 #             reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Download Now", url=stream_link)]]),
